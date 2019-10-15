@@ -14,16 +14,15 @@ $(function(){
 
 
            $(".btn-reinicio").click(function(){
+                 columnas.lenght=0; //pone la matriz en cero al usar el boton
+                 cuadriculaDulce=0;
                 llenarTablero();
-                columnas.lenght=0; //pone la matriz en cero al usar el boton
-                cuadriculaDulce=0;
                 validarImagenesColumnas();
 
            });
     });
 });
 
-var cuadriculaDulce;
 
 
 // Numeros aleatorios para poner los dulces
@@ -35,7 +34,11 @@ function numerosAleatorios(min, max){
 
 //Llenar tablero aleatoriamente, asigna id de cuadriculas de la matriz de dulces
 //error: se llena debajo del contenedor de dulces, esto despues de implementar cuadriculaDulce. se recomienda usar window.reload() con un contador de clicks, carga dulces al rimer click, despues reinicia toda la ventana.
+var cuadriculaDulce;
 function llenarTablero(){
+  $('div[class^="col"]').children().each(function(){
+          $(this).remove();
+  });
   $('div[class^="col"]').each(function(){
      for(var i=1; i<8; i++){
          num = numerosAleatorios(1, 5);
