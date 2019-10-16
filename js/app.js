@@ -17,8 +17,8 @@ $(function(){
                  columnas=[]; //pone la matriz en cero al usar el boton
                  cuadriculaDulce=0;
                  num=0;
-                llenarTablero();
-                validarImagenesColumnas();
+                 llenarTablero();
+                 validarImagenesColumnas();
 
            });
     });
@@ -32,6 +32,7 @@ function numerosAleatorios(min, max){
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
 
 //Llenar tablero aleatoriamente, asigna id de cuadriculas de la matriz de dulces con cuadriculaDulce
 var cuadriculaDulce;
@@ -48,6 +49,7 @@ function llenarTablero(){
      };
   });
 };
+
 
 //Para validar dulces, si tiene 3 dulces iguales. se apunta a los hijos de cada columna $('div[class^="col"]').children().each() y a cada hijo le consulta su src y lo pone al final del array
 var columnas = new Array();
@@ -66,18 +68,17 @@ function validarImagenesColumnas(){
                   $("#1").remove();
                   $("#2").remove();
             }, 1301);
-            //VERIFICAR si pone dulces nuevos pero cambia toda la fila
+            //VERIFICAR ERROR si pone dulces nuevos pero cambia toda la columna
             setTimeout(function () {
-                  for(var i=1; i<4; i++){
+                  for(var n=1; n<4; n++){
                       num = numerosAleatorios(1, 5);
-                      $(".col-1").append("<img class='elemento' src='image/" + num + ".png' id="+ cuadriculaDulce +">");
+                      $(".col-1").prepend("<img class='elemento' src='image/" + num + ".png' id="+ cuadriculaDulce +">");
                       cuadriculaDulce++;
                   };
            }, 2300);
-           setTimeout(function () {cuadriculaDulce=0; num=0;}, 2301);
+           setTimeout(function () {cuadriculaDulce=0; num=0;n=0}, 2301);
 
   };
-  //modifique llenarTablero poniedo el id que se incrementa ++, ahora la idea es usar el id para modificar la imagen de dulce cuando hay 3 iguales en cada if
   if ((columnas[1]==columnas[2]) && (columnas[2]==columnas[3])){};
   if ((columnas[2]==columnas[3]) && (columnas[3]==columnas[4])){};
   if ((columnas[3]==columnas[4]) && (columnas[4]==columnas[5])){};
