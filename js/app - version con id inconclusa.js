@@ -51,6 +51,22 @@ function llenarTablero(){
 };
 
 
+//Function para llenar los dulces faltantes
+var cantidadcolumnas = $(".panel-tablero div");
+const cantidaddulces = 7;
+function llenar() {
+    for (var i = 0; i < cantidadcolumnas.length; i++) {
+         var cantidad = $(cantidadcolumnas[i]).children().length;
+         for (var j = 0; j < cantidaddulces - cantidad; j++) {
+           var img = Math.floor(Math.random() * (4 - 1 + 1)); //4 son las fotos de dulce disponibles
+           //Seguir aqui - ajustar la logica para cuadriculaDulce ¿Como se cual es la cuadricula? y asi poner el id correcto
+           //recordar que tengo otro metodo para llenar en el app - copia 2
+           var dulce = $("<img class='elemento' src='image/" + num + ".png' id="+ cuadriculaDulce +" width='100px' height='100px'>");
+         };
+    };
+};
+
+
 //Para validar dulces, si tiene 3 dulces iguales. se apunta a los hijos de cada columna $('div[class^="col"]').children().each() y a cada hijo le consulta su src y lo pone al final del array
 var columnas = new Array();
 function validarImagenesColumnas(){
@@ -68,16 +84,7 @@ function validarImagenesColumnas(){
                   $("#1").remove();
                   $("#2").remove();
             }, 1301);
-            //VERIFICAR ERROR si pone dulces nuevos pero cambia toda la columna
-            setTimeout(function () {
-                  for(var n=1; n<4; n++){
-                      num = numerosAleatorios(1, 5);
-                      $(".col-1").prepend("<img class='elemento' src='image/" + num + ".png' id="+ cuadriculaDulce +">");
-                      $(".col-1").children().animate({top:"+=100px"}, 2000, function(){console.log("Entra en animate")});
-                      cuadriculaDulce++;
-                  };
-           }, 2000);
-           setTimeout(function () {cuadriculaDulce=0; num=0;n=0}, 2001);
+
 
   };
   if ((columnas[1]==columnas[2]) && (columnas[2]==columnas[3])){};
