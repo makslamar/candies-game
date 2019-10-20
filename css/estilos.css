@@ -72,6 +72,16 @@ body{
   text-align: center;
   color: #DCFF0E;
 }
+
+
+.timer{
+  display: flex;
+  flex-flow: row wrap;
+
+  justify-content: center;
+}
+
+
 .btn-reinicio{
   background: #E8CA06;
   border: 6px solid #FFB206;
