@@ -1,6 +1,7 @@
 $(function(){
     $(document).ready(function(){
         colorTituloA();
+
         function colorTituloA(){
               $(".main-titulo").animate({color:"#CB04FC"},
                                          500,
@@ -14,15 +15,28 @@ $(function(){
 
 
            $(".btn-reinicio").click(function(){
-                 //var columnas = [];
-                 var contadorStarterTime=0;
-                 $('.timer').startTimer({
-                      onComplete: function(){
-                           console.log('Complete');
-                      }
-                 });
+                 $(".game-over").remove();
+                 $(".panel-score").css("width", "25%");
+                 $(".panel-tablero").show("fade", 1000);
+                 $(".timer").children().remove();
+                 $(".timer").remove();
+                 $("#timer-titulo").append('<div class="timer data-info" data-seconds-left="120"></div>');
+                 setTimeout(function(){
+                     $('.timer').startTimer({
+                          onComplete: function(){
+                               console.log('Complete');
+                               $(".panel-tablero").hide("fade", 1500);
+                               setTimeout(function(){
+                               $(".panel-score").animate({width:"100%"}, 1500);
+                               $(".main-titulo").append('<h1 class="game-over">- GAME OVER -</h1>');
+                             }, 1850);
+                          }
+                     });
+                 }, 10);
                  var velocidadLLenado=0;
                  puntuacion=0;
+                 movimientosCounter=0;
+                 $("#movimientos-text").text(movimientosCounter);
                  $('div[class^="col"]').children().each(function(){$(this).remove()}); //reinicia, borrando los <img> en el tablero
                  llenar(1);
                  validadulces();
@@ -45,12 +59,17 @@ $(function(){
                            }, 3001);
                      setTimeout(function(){llenar(600);}, 3500);
                  }, 3530);
+
+                $(".btn-reinicio").text("Reiniciar");
            });
     });
 });
 
 
-
+// Llena el tablero y animacion de los dulces
+var elementoDrag = "";
+var elementoDrop = "";
+var movimientosCounter = 0;
 var columnas = $(".panel-tablero div");
 const cantidaddulces = 7;
 var velocidadLLenado=0;
@@ -77,14 +96,40 @@ function llenar(velocidadLLenado) {
                                    queue: true,
                                    complete: function(){
                                         $(this).addClass("displayed");
-                                        $(this).css({position: 'unset'});
+                                        $(this).css({ position: 'relative', top: 'unset' });
                                         siguienteDulce = true;
                                         j++;
                                     }
                                  });
-
         };
     };
+    $(".elemento").draggable({
+        disabled: false,
+        revert: "invalid",
+        containment: ".panel-tablero",
+        scroll: false,
+        //grid: [100, 100]
+        /*start: function (event, ui) {
+
+        },
+        stop: function (event, ui) {
+        },*/
+
+    });
+    $(".elemento").droppable({
+        disabled: false,
+        revert: "invalid",
+        containment: ".panel-tablero",
+        grid: [100, 100],
+        accept:".elemento",
+        drop: function(event,ui){
+            elementoDrop = $(this);
+            elementoDrag = $(ui.draggable);
+            movimientosCounter++;
+            $("#movimientos-text").text(movimientosCounter);
+
+        }
+     });
 };
 
 
