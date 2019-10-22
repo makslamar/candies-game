@@ -1,7 +1,7 @@
 $(function(){
     $(document).ready(function(){
         colorTituloA();
-
+        //Animacion bucle para Titulo Neon
         function colorTituloA(){
               $(".main-titulo").animate({color:"#CB04FC"},
                                          500,
@@ -13,18 +13,17 @@ $(function(){
                                          colorTituloA);
         };
 
-
+           // Carga el juego al oprimir boton Inicio
            $(".btn-reinicio").click(function(){
                  $(".game-over").remove();
                  $(".panel-score").css("width", "25%");
                  $(".panel-tablero").show("fade", 1000);
-                 $(".timer").children().remove();
-                 $(".timer").remove();
-                 $("#timer-titulo").append('<div class="timer data-info" data-seconds-left="120"></div>');
+                 $(".timer").children().remove(); //reinicia timer
+                 $(".timer").remove(); //reinicia timer
+                 $("#timer-titulo").append('<div class="timer data-info" data-seconds-left="120"></div>'); //inicia un timer nuevo
                  setTimeout(function(){
                      $('.timer').startTimer({
-                          onComplete: function(){
-                               console.log('Complete');
+                          onComplete: function(){ //cuando termina el conteo de tiempo, ejecuta esta funcion
                                $(".panel-tablero").hide("fade", 1500);
                                setTimeout(function(){
                                $(".panel-score").animate({width:"100%"}, 1500);
@@ -36,7 +35,7 @@ $(function(){
                  var velocidadLLenado=0;
                  puntuacion=0;
                  movimientosCounter=0;
-                 $("#movimientos-text").text(movimientosCounter);
+                 $("#movimientos-text").text(movimientosCounter); //reinicia contador
                  $('div[class^="col"]').children().each(function(){$(this).remove()}); //reinicia, borrando los <img> en el tablero
                  llenar(1);
                  validadulces();
@@ -60,7 +59,7 @@ $(function(){
                      setTimeout(function(){llenar(600);}, 3500);
                  }, 3530);
 
-                $(".btn-reinicio").text("Reiniciar");
+                $(".btn-reinicio").text("Reiniciar"); // Carmbia titulo del boton Inicio, por Reinicio
            });
     });
 });
@@ -103,6 +102,7 @@ function llenar(velocidadLLenado) {
                                  });
         };
     };
+    // Drag and Drop
     $(".elemento").draggable({
         disabled: false,
         revert: "invalid",
@@ -141,7 +141,7 @@ function numerosAleatorios(min, max){
 }
 
 
-   //valida si hay dulces iguales y los elimina
+   //valida si hay dulces iguales y les pone la clase .eliminar, que seran borrados en $(".btn-reinicio").click(function())
    var puntuacion = 0;
    function validadulces() {
           for (var i = 1; i <= 7; i++) {
