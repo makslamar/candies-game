@@ -15,9 +15,9 @@ $(function(){
 
            // Carga el juego al oprimir boton Inicio
            $(".btn-reinicio").click(function(){
-                 $(".game-over").remove();
-                 $(".panel-score").css("width", "25%");
-                 $(".panel-tablero").show("fade", 1000);
+                 $(".game-over").remove(); //quita aviso game over, antes de reiniciar
+                 $(".panel-score").css("width", "25%");//regresa el panel score a su tamaño pequeño a la derecha
+                 $(".panel-tablero").show("fade", 1000);//pone de nuevo el panel de dulces, al usar reiniciar
                  $(".timer").children().remove(); //reinicia timer
                  $(".timer").remove(); //reinicia timer
                  $("#timer-titulo").append('<div class="timer data-info" data-seconds-left="120"></div>'); //inicia un timer nuevo
@@ -40,12 +40,12 @@ $(function(){
                  llenar(1);
                  validadulces();
                  setTimeout(function(){
-                       $('img.eliminar').hide('pulsate', 1500);
-                       }, 1500);
+                       $('img.eliminar').hide('pulsate', 1100);
+                     }, 1100);
                  setTimeout(function () {
                        $('img.eliminar').remove();
-                       }, 3001);
-                 setTimeout(function(){llenar(600);}, 3200);
+                     }, 2601);
+                 setTimeout(function(){llenar(600);}, 2800);
 
                  setInterval(function(){
                      llenar(1);
@@ -55,9 +55,9 @@ $(function(){
                          }, 1500);
                      setTimeout(function () {
                            $('img.eliminar').remove();
-                           }, 3001);
-                     setTimeout(function(){llenar(600);}, 3500);
-                 }, 3530);
+                         }, 3101);
+                     setTimeout(function(){llenar(600);}, 2800);
+                 }, 3101);
 
                 $(".btn-reinicio").text("Reiniciar"); // Carmbia titulo del boton Inicio, por Reinicio
            });
@@ -105,29 +105,36 @@ function llenar(velocidadLLenado) {
     // Drag and Drop
     $(".elemento").draggable({
         disabled: false,
-        revert: "invalid",
+        revert: true, //regresa el .elemento a su posicion original
         containment: ".panel-tablero",
-        scroll: false,
-        //grid: [100, 100]
+        scroll: false, //apaga la barra scroll
+        grid: [100, 100],
+        snap: true,
+        snapMode: "inner",
+        revertDuration: 0,
+        //snapTolerance: 30,
+        stack: ".elemento",
+        opacity: 0.66,
         /*start: function (event, ui) {
-
         },
         stop: function (event, ui) {
         },*/
-
     });
     $(".elemento").droppable({
         disabled: false,
-        revert: "invalid",
+        revert: true, //regresa los elementos dulces a su posicion original despues del intercambio de src
         containment: ".panel-tablero",
         grid: [100, 100],
         accept:".elemento",
         drop: function(event,ui){
-            elementoDrop = $(this);
-            elementoDrag = $(ui.draggable);
-            movimientosCounter++;
-            $("#movimientos-text").text(movimientosCounter);
-
+            elementoDrop = $(this).attr("src");//se consulta el src de drop
+            elementoDrag = $(ui.draggable).attr("src");//se consulta el src de drag
+            movimientosCounter++; //se suman movimientos
+            $("#movimientos-text").text(movimientosCounter);//muestra movimientos en tablero
+            $(ui.draggable).attr("src", elementoDrop);//intercambia el src de drag y pone el de drop
+            $(this).attr("src", elementoDrag);//intercambia el src de drop y pone el de drag
+            validadulces();
+            llenar(1);
         }
      });
 };
@@ -154,7 +161,7 @@ function numerosAleatorios(min, max){
                     dulcec1.addClass("eliminar");
                     dulcec2.addClass("eliminar");
                     dulcec3.addClass("eliminar");
-                    puntuacion++;
+                    setTimeout(function(){puntuacion++;},2000);//suma puntos
                     $("#score-text").text(puntuacion);
                 };
                 /* Valida Filas */
@@ -165,7 +172,7 @@ function numerosAleatorios(min, max){
                     dulcef1.addClass("eliminar");
                     dulcef2.addClass("eliminar");
                     dulcef3.addClass("eliminar");
-                    puntuacion++;
+                    setTimeout(function(){puntuacion++;},2000);//suma puntos
                     $("#score-text").text(puntuacion);
                 };
             };
